@@ -1,0 +1,49 @@
+﻿[
+    {
+      $group: {
+        _id: "$CommercialFileNo",
+        totalLcVal: {
+          $sum: "$LcAmount"
+        }
+      }
+    },
+    {
+      $lookup: {
+        from: "updated_source_data",
+        localField: "_id",
+        foreignField: "FileNo",
+        as: "source_data"
+      }
+    },
+    {
+      $unwind: {
+        path: "$source_data",
+        preserveNullAndEmptyArrays: true
+      }
+    },
+    {
+      $group: {
+        _id: "$_id",
+        totalLcVal: {
+          $first: "$totalLcVal"
+        },
+        totalInvVal: {
+          $sum: "$source_data.InvoiceValue"
+        }
+      }
+    },
+    {
+      $addFields: {
+        diff: {
+          $subtract: ["$totalLcVal", "$totalInvVal"]
+        }
+      }
+    },
+    {
+      $match: {
+        diff: {
+          $ne: 0
+        }
+      }
+    }
+  ]
