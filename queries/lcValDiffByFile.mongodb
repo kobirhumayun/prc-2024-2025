@@ -1,5 +1,12 @@
 ﻿[
     {
+      $match: {
+        UPNo: {
+          $exists: true
+        }
+      }
+    },
+    {
       $group: {
         _id: "$CommercialFileNo",
         totalLcVal: {
