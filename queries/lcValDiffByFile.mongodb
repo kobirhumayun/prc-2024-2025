@@ -1,56 +1,93 @@
 ﻿[
-    {
-      $match: {
-        UPNo: {
-          $exists: true
-        }
+  {
+    $match: {
+      UPNo: {
+        $exists: true
       }
-    },
-    {
-      $group: {
-        _id: "$CommercialFileNo",
-        totalLcVal: {
-          $sum: "$LcAmount"
-        }
+    }
+  },
+  {
+    $group: {
+      _id: "$CommercialFileNo",
+      LCSCNo: {
+        $first: "$LCSCNo"
+      },
+      totalLcVal: {
+        $sum: "$LcAmount"
+      },
+      UPNo: {
+        $addToSet: "$UPNo"
       }
-    },
-    {
-      $lookup: {
-        from: "updated_source_data",
-        localField: "_id",
-        foreignField: "FileNo",
-        as: "source_data"
+    }
+  },
+  {
+    $lookup: {
+      from: "updated_source_data",
+      localField: "_id",
+      foreignField: "FileNo",
+      as: "source_data"
+    }
+  },
+  {
+    $unwind: {
+      path: "$source_data",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $group: {
+      _id: "$_id",
+      LCSCNo: {
+        $first: "$LCSCNo"
+      },
+      UPNo: {
+        $first: "$UPNo"
+      },
+      totalLcVal: {
+        $first: "$totalLcVal"
+      },
+      totalInvVal: {
+        $sum: "$source_data.InvoiceValue"
       }
-    },
-    {
-      $unwind: {
-        path: "$source_data",
-        preserveNullAndEmptyArrays: true
-      }
-    },
-    {
-      $group: {
-        _id: "$_id",
-        totalLcVal: {
-          $first: "$totalLcVal"
-        },
-        totalInvVal: {
-          $sum: "$source_data.InvoiceValue"
-        }
-      }
-    },
-    {
-      $addFields: {
-        diff: {
-          $subtract: ["$totalLcVal", "$totalInvVal"]
-        }
-      }
-    },
-    {
-      $match: {
-        diff: {
-          $ne: 0
+    }
+  },
+  {
+    $addFields: {
+      UPNo: {
+        $reduce: {
+          input: "$UPNo",
+          initialValue: "",
+          in: {
+            $cond: {
+              if: {
+                $eq: ["$$value", ""]
+              },
+              then: "$$this",
+              else: {
+                $concat: [
+                  "$$value",
+                  ", ",
+                  "$$this"
+                ]
+              }
+            }
+          }
         }
       }
     }
-  ]
+  },
+  {
+    $addFields: {
+      diff: {
+        $subtract: ["$totalLcVal", "$totalInvVal"]
+      }
+    }
+  },
+  {
+    $match: {
+      diff: {
+        $ne: 0
+      }
+    }
+  }
+]
