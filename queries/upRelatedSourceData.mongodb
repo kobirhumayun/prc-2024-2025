@@ -1,0 +1,36 @@
+﻿[
+    {
+      $match: {
+        UPNo: {
+          $exists: true
+        },
+        GarmentsQty: {
+          $exists: false
+        }
+      }
+    },
+    {
+      $group: {
+        _id: "$CommercialFileNo"
+      }
+    },
+    {
+      $lookup: {
+        from: "updated_source_data",
+        localField: "_id",
+        foreignField: "FileNo",
+        as: "updated_data"
+      }
+    },
+    {
+      $unwind: {
+        path: "$updated_data",
+        preserveNullAndEmptyArrays: true
+      }
+    },
+    {
+      $replaceRoot: {
+        newRoot: "$updated_data"
+      }
+    }
+  ]
