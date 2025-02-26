@@ -1,0 +1,46 @@
+﻿[
+    {
+      $match: {
+        BankRef: { $exists: true }
+      }
+    },
+    {
+      $lookup: {
+        from: "updated_source_data_export",
+        localField: "BankRef",
+        foreignField: "BankRef",
+        as: "source_export_data"
+      }
+    },
+    {
+      $match: {
+        $expr: {
+          $lt: [{ $size: "$source_export_data" }, 1]
+        }
+      }
+    },
+    {
+      $match: {
+        PRCAmount: 0
+      }
+    },
+    {
+      $set: {
+        checkDt: {
+          $dateFromString: {
+            dateString: "$BankRefDT",
+            format: "%d/%m/%Y",
+            onError: "$BankRefDT"
+          }
+        }
+      }
+    },
+    {
+      $sort: {
+        checkDt: 1
+      }
+    },
+    {
+      $skip: 13
+    }
+  ]
