@@ -1,0 +1,214 @@
+﻿[
+    {
+      $facet: {
+        totalLcValInUp: [
+          {
+            $match: {
+              UPNo: {
+                $exists: true
+              },
+              GarmentsQty: {
+                $exists: false
+              }
+            }
+          },
+          {
+            $group: {
+              _id: null,
+              totalLcValInUp: {
+                $sum: "$LcAmount"
+              }
+            }
+          }
+        ],
+        totalFromSourceData: [
+          {
+            $match: {
+              UPNo: {
+                $exists: true
+              },
+              GarmentsQty: {
+                $exists: false
+              }
+            }
+          },
+          {
+            $group: {
+              _id: "$CommercialFileNo",
+              totalLcVal: {
+                $sum: "$LcAmount"
+              }
+            }
+          },
+          {
+            $lookup: {
+              from: "updated_source_data",
+              localField: "_id",
+              foreignField: "FileNo",
+              as: "updated_data"
+            }
+          },
+          {
+            $unwind: {
+              path: "$updated_data",
+              preserveNullAndEmptyArrays: true
+            }
+          },
+          {
+            $replaceRoot: {
+              newRoot: "$updated_data"
+            }
+          },
+          {
+            $group: {
+              _id: null,
+              totalFromSourceData: {
+                $sum: "$InvoiceValue"
+              }
+            }
+          }
+        ],
+        totalInvoiceVal: [
+          {
+            $unionWith: {
+              coll: "total_invoice_against_up",
+              pipeline: [
+                {
+                  $addFields: {
+                    source: "total_invoice"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            $match: {
+              source: "total_invoice"
+            }
+          },
+          {
+            $group: {
+              _id: null,
+              totalInvoiceVal: {
+                $sum: "$InvoiceValue"
+              }
+            }
+          }
+        ],
+        totalAdjustment: [
+          {
+            $unionWith: {
+              coll: "adjusted_invoice",
+              pipeline: [
+                {
+                  $addFields: {
+                    source: "adjustment"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            $match: {
+              source: "adjustment"
+            }
+          },
+          {
+            $group: {
+              _id: null,
+              totalAdjustment: {
+                $sum: "$InvoiceValue"
+              }
+            }
+          }
+        ],
+        totalInvoiceWithAdjustedVal: [
+          {
+            $unionWith: {
+              coll: "total_invoice_against_up_with_adjusted",
+              pipeline: [
+                {
+                  $addFields: {
+                    source:
+                      "total_invoice_with_adjusted"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            $match: {
+              source: "total_invoice_with_adjusted"
+            }
+          },
+          {
+            $group: {
+              _id: null,
+              totalInvoiceWithAdjustedVal: {
+                $sum: "$InvoiceValue"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      $unwind: {
+        path: "$totalLcValInUp",
+        preserveNullAndEmptyArrays: true
+      }
+    },
+    {
+      $unwind: {
+        path: "$totalFromSourceData",
+        preserveNullAndEmptyArrays: true
+      }
+    },
+    {
+      $unwind: {
+        path: "$totalInvoiceVal",
+        preserveNullAndEmptyArrays: true
+      }
+    },
+    {
+      $unwind: {
+        path: "$totalAdjustment",
+        preserveNullAndEmptyArrays: true
+      }
+    },
+    {
+      $unwind: {
+        path: "$totalInvoiceWithAdjustedVal",
+        preserveNullAndEmptyArrays: true
+      }
+    },
+    {
+      $project: {
+        totalLcValInUp:
+          "$totalLcValInUp.totalLcValInUp",
+        totalFromSourceData:
+          "$totalFromSourceData.totalFromSourceData",
+        totalInvoiceVal:
+          "$totalInvoiceVal.totalInvoiceVal",
+        totalAdjustment:
+          "$totalAdjustment.totalAdjustment",
+        totalInvoiceWithAdjustedVal:
+          "$totalInvoiceWithAdjustedVal.totalInvoiceWithAdjustedVal"
+      }
+    },
+    {
+      $addFields: {
+        stillToBeAdjusted: {
+          $subtract: [
+            "$totalLcValInUp",
+            {
+              $add: [
+                "$totalInvoiceVal",
+                "$totalAdjustment"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
