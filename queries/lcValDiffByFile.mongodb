@@ -3,6 +3,9 @@
     $match: {
       UPNo: {
         $exists: true
+      },
+      GarmentsQty: {
+        $exists: false
       }
     }
   },
