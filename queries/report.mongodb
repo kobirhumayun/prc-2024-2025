@@ -369,6 +369,115 @@
             }
           }
         }
+      ],
+      total_city_realized: [
+        {
+          $unionWith: {
+            coll: "city_realized",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "city_realized"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "city_realized"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_city_realized: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      total_city_processing_value_by_lc: [
+        {
+          $unionWith: {
+            coll: "city_processing_value_by_lc",
+            pipeline: [
+              {
+                $addFields: {
+                  source:
+                    "city_processing_value_by_lc"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "city_processing_value_by_lc"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_city_processing_value_by_lc: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      total_city_processing: [
+        {
+          $unionWith: {
+            coll: "city_processing",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "city_processing"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "city_processing"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_city_processing: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      total_city_issue: [
+        {
+          $unionWith: {
+            coll: "city_issue",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "city_issue"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "city_issue"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_city_issue: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
       ]
     }
   },
