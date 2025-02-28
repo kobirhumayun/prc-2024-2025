@@ -478,6 +478,115 @@
             }
           }
         }
+      ],
+      total_mtb_realized: [
+        {
+          $unionWith: {
+            coll: "mtb_realized",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "mtb_realized"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "mtb_realized"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_mtb_realized: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      total_mtb_processing_value_by_lc: [
+        {
+          $unionWith: {
+            coll: "mtb_processing_value_by_lc",
+            pipeline: [
+              {
+                $addFields: {
+                  source:
+                    "mtb_processing_value_by_lc"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "mtb_processing_value_by_lc"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_mtb_processing_value_by_lc: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      total_mtb_processing: [
+        {
+          $unionWith: {
+            coll: "mtb_processing",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "mtb_processing"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "mtb_processing"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_mtb_processing: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      total_mtb_issue: [
+        {
+          $unionWith: {
+            coll: "mtb_issue",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "mtb_issue"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "mtb_issue"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_mtb_issue: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
       ]
     }
   },
