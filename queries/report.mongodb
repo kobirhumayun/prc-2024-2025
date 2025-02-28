@@ -149,6 +149,117 @@
             }
           }
         }
+      ],
+      total_al_arafah_realized: [
+        {
+          $unionWith: {
+            coll: "al_arafah_realized",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "al_arafah_realized"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "al_arafah_realized"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_al_arafah_realized: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      total_al_arafah_processing_value_by_lc: [
+        {
+          $unionWith: {
+            coll: "al_arafah_processing_value_by_lc",
+            pipeline: [
+              {
+                $addFields: {
+                  source:
+                    "al_arafah_processing_value_by_lc"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source:
+              "al_arafah_processing_value_by_lc"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_al_arafah_processing_value_by_lc:
+              {
+                $sum: "$InvoiceValue"
+              }
+          }
+        }
+      ],
+      total_al_arafah_processing: [
+        {
+          $unionWith: {
+            coll: "al_arafah_processing",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "al_arafah_processing"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "al_arafah_processing"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_al_arafah_processing: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      total_al_arafah_issue: [
+        {
+          $unionWith: {
+            coll: "al_arafah_issue",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "al_arafah_issue"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "al_arafah_issue"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_al_arafah_issue: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
       ]
     }
   },
