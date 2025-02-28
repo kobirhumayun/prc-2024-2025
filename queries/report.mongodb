@@ -730,6 +730,126 @@
     }
   },
   {
+    $unwind: {
+      path: "$total_al_arafah_realized",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_al_arafah_processing_value_by_lc",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_al_arafah_processing",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_al_arafah_issue",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_brac_realized",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_brac_processing_value_by_lc",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_brac_processing",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_brac_issue",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_city_realized",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_city_processing_value_by_lc",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_city_processing",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_city_issue",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_mtb_realized",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_mtb_processing_value_by_lc",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_mtb_processing",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_mtb_issue",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_scb_realized",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_scb_processing_value_by_lc",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_scb_processing",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$total_scb_issue",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
     $project: {
       totalLcValInUp:
         "$totalLcValInUp.totalLcValInUp",
@@ -740,7 +860,47 @@
       totalAdjustment:
         "$totalAdjustment.totalAdjustment",
       totalInvoiceWithAdjustedVal:
-        "$totalInvoiceWithAdjustedVal.totalInvoiceWithAdjustedVal"
+        "$totalInvoiceWithAdjustedVal.totalInvoiceWithAdjustedVal",
+      total_al_arafah_realized:
+        "$total_al_arafah_realized.total_al_arafah_realized",
+      total_al_arafah_processing_value_by_lc:
+        "$total_al_arafah_processing_value_by_lc.total_al_arafah_processing_value_by_lc",
+      total_al_arafah_processing:
+        "$total_al_arafah_processing.total_al_arafah_processing",
+      total_al_arafah_issue:
+        "$total_al_arafah_issue.total_al_arafah_issue",
+      total_brac_realized:
+        "$total_brac_realized.total_brac_realized",
+      total_brac_processing_value_by_lc:
+        "$total_brac_processing_value_by_lc.total_brac_processing_value_by_lc",
+      total_brac_processing:
+        "$total_brac_processing.total_brac_processing",
+      total_brac_issue:
+        "$total_brac_issue.total_brac_issue",
+      total_city_realized:
+        "$total_city_realized.total_city_realized",
+      total_city_processing_value_by_lc:
+        "$total_city_processing_value_by_lc.total_city_processing_value_by_lc",
+      total_city_processing:
+        "$total_city_processing.total_city_processing",
+      total_city_issue:
+        "$total_city_issue.total_city_issue",
+      total_mtb_realized:
+        "$total_mtb_realized.total_mtb_realized",
+      total_mtb_processing_value_by_lc:
+        "$total_mtb_processing_value_by_lc.total_mtb_processing_value_by_lc",
+      total_mtb_processing:
+        "$total_mtb_processing.total_mtb_processing",
+      total_mtb_issue:
+        "$total_mtb_issue.total_mtb_issue",
+      total_scb_realized:
+        "$total_scb_realized.total_scb_realized",
+      total_scb_processing_value_by_lc:
+        "$total_scb_processing_value_by_lc.total_scb_processing_value_by_lc",
+      total_scb_processing:
+        "$total_scb_processing.total_scb_processing",
+      total_scb_issue:
+        "$total_scb_issue.total_scb_issue"
     }
   },
   {
@@ -760,6 +920,55 @@
         $subtract: [
           "$totalLcValInUp",
           "$totalInvoiceWithAdjustedVal"
+        ]
+      },
+      total_al_arafah_realized_and_processing: {
+        $add: [
+          "$total_al_arafah_realized",
+          "$total_al_arafah_processing"
+        ]
+      },
+      total_brac_realized_and_processing: {
+        $add: [
+          "$total_brac_realized",
+          "$total_brac_processing"
+        ]
+      },
+      total_city_realized_and_processing: {
+        $add: [
+          "$total_city_realized",
+          "$total_city_processing"
+        ]
+      },
+      total_mtb_realized_and_processing: {
+        $add: [
+          "$total_mtb_realized",
+          "$total_mtb_processing"
+        ]
+      },
+      total_scb_realized_and_processing: {
+        $add: [
+          "$total_scb_realized",
+          "$total_scb_processing"
+        ]
+      }
+    }
+  },
+
+  {
+    $addFields: {
+      diffTotalLcValInUpAndSumAllBank: {
+        $subtract: [
+          "$totalLcValInUp",
+          {
+            $add: [
+              "$total_al_arafah_realized_and_processing",
+              "$total_brac_realized_and_processing",
+              "$total_city_realized_and_processing",
+              "$total_mtb_realized_and_processing",
+              "$total_scb_realized_and_processing"
+            ]
+          }
         ]
       }
     }
