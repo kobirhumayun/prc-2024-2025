@@ -260,6 +260,115 @@
             }
           }
         }
+      ],
+      total_brac_realized: [
+        {
+          $unionWith: {
+            coll: "brac_realized",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "brac_realized"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "brac_realized"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_brac_realized: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      total_brac_processing_value_by_lc: [
+        {
+          $unionWith: {
+            coll: "brac_processing_value_by_lc",
+            pipeline: [
+              {
+                $addFields: {
+                  source:
+                    "brac_processing_value_by_lc"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "brac_processing_value_by_lc"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_brac_processing_value_by_lc: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      total_brac_processing: [
+        {
+          $unionWith: {
+            coll: "brac_processing",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "brac_processing"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "brac_processing"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_brac_processing: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      total_brac_issue: [
+        {
+          $unionWith: {
+            coll: "brac_issue",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "brac_issue"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "brac_issue"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_brac_issue: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
       ]
     }
   },
