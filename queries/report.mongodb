@@ -587,6 +587,115 @@
             }
           }
         }
+      ],
+      total_scb_realized: [
+        {
+          $unionWith: {
+            coll: "scb_realized",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "scb_realized"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "scb_realized"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_scb_realized: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      total_scb_processing_value_by_lc: [
+        {
+          $unionWith: {
+            coll: "scb_processing_value_by_lc",
+            pipeline: [
+              {
+                $addFields: {
+                  source:
+                    "scb_processing_value_by_lc"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "scb_processing_value_by_lc"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_scb_processing_value_by_lc: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      total_scb_processing: [
+        {
+          $unionWith: {
+            coll: "scb_processing",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "scb_processing"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "scb_processing"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_scb_processing: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      total_scb_issue: [
+        {
+          $unionWith: {
+            coll: "scb_issue",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "scb_issue"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "scb_issue"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            total_scb_issue: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
       ]
     }
   },
