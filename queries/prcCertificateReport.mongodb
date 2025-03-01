@@ -416,5 +416,20 @@
       path: "$scb_realized",
       preserveNullAndEmptyArrays: true
     }
+  },
+
+  {
+    $project: {
+      "al_arafah_processing_value_by_lc._id": 0,
+      "al_arafah_realized._id": 0,
+      "brac_processing_value_by_lc._id": 0,
+      "brac_realized._id": 0,
+      "city_processing_value_by_lc._id": 0,
+      "city_realized._id": 0,
+      "mtb_processing_value_by_lc._id": 0,
+      "mtb_realized._id": 0,
+      "scb_processing_value_by_lc._id": 0,
+      "scb_realized._id": 0
+    }
   }
 ]
