@@ -58,6 +58,17 @@
               $sum: "$PRCAmount"
             }
           }
+        },
+
+        {
+          $addFields: {
+            miscellaneous: {
+              $subtract: [
+                "$totalInvoiceVal",
+                "$totalPrcVal"
+              ]
+            }
+          }
         }
       ],
 
@@ -115,6 +126,17 @@
             },
             totalPrcVal: {
               $sum: "$PRCAmount"
+            }
+          }
+        },
+
+        {
+          $addFields: {
+            miscellaneous: {
+              $subtract: [
+                "$totalInvoiceVal",
+                "$totalPrcVal"
+              ]
             }
           }
         }
@@ -176,6 +198,17 @@
               $sum: "$PRCAmount"
             }
           }
+        },
+
+        {
+          $addFields: {
+            miscellaneous: {
+              $subtract: [
+                "$totalInvoiceVal",
+                "$totalPrcVal"
+              ]
+            }
+          }
         }
       ],
 
@@ -235,6 +268,17 @@
               $sum: "$PRCAmount"
             }
           }
+        },
+
+        {
+          $addFields: {
+            miscellaneous: {
+              $subtract: [
+                "$totalInvoiceVal",
+                "$totalPrcVal"
+              ]
+            }
+          }
         }
       ],
 
@@ -292,6 +336,17 @@
             },
             totalPrcVal: {
               $sum: "$PRCAmount"
+            }
+          }
+        },
+
+        {
+          $addFields: {
+            miscellaneous: {
+              $subtract: [
+                "$totalInvoiceVal",
+                "$totalPrcVal"
+              ]
             }
           }
         }
