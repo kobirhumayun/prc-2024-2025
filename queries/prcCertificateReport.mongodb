@@ -297,5 +297,69 @@
         }
       ]
     }
+  },
+  {
+    $unwind: {
+      path: "$al_arafah_processing_value_by_lc",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$al_arafah_realized",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+
+  {
+    $unwind: {
+      path: "$brac_processing_value_by_lc",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$brac_realized",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+
+  {
+    $unwind: {
+      path: "$city_processing_value_by_lc",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$city_realized",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+
+  {
+    $unwind: {
+      path: "$mtb_processing_value_by_lc",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$mtb_realized",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+
+  {
+    $unwind: {
+      path: "$scb_processing_value_by_lc",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$scb_realized",
+      preserveNullAndEmptyArrays: true
+    }
   }
 ]
