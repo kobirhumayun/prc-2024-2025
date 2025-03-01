@@ -1,0 +1,301 @@
+[
+  {
+    $facet: {
+      al_arafah_processing_value_by_lc: [
+        {
+          $unionWith: {
+            coll: "al_arafah_processing_value_by_lc",
+            pipeline: [
+              {
+                $addFields: {
+                  source:
+                    "al_arafah_processing_value_by_lc"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source:
+              "al_arafah_processing_value_by_lc"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            totalInvoiceVal: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      al_arafah_realized: [
+        {
+          $unionWith: {
+            coll: "al_arafah_realized",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "al_arafah_realized"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "al_arafah_realized"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            totalInvoiceVal: {
+              $sum: "$InvoiceValue"
+            },
+            totalPrcVal: {
+              $sum: "$PRCAmount"
+            }
+          }
+        }
+      ],
+
+      brac_processing_value_by_lc: [
+        {
+          $unionWith: {
+            coll: "brac_processing_value_by_lc",
+            pipeline: [
+              {
+                $addFields: {
+                  source:
+                    "brac_processing_value_by_lc"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "brac_processing_value_by_lc"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            totalInvoiceVal: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      brac_realized: [
+        {
+          $unionWith: {
+            coll: "brac_realized",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "brac_realized"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "brac_realized"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            totalInvoiceVal: {
+              $sum: "$InvoiceValue"
+            },
+            totalPrcVal: {
+              $sum: "$PRCAmount"
+            }
+          }
+        }
+      ],
+
+      city_processing_value_by_lc: [
+        {
+          $unionWith: {
+            coll: "city_processing_value_by_lc",
+            pipeline: [
+              {
+                $addFields: {
+                  source:
+                    "city_processing_value_by_lc"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "city_processing_value_by_lc"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            totalInvoiceVal: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      city_realized: [
+        {
+          $unionWith: {
+            coll: "city_realized",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "city_realized"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "city_realized"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            totalInvoiceVal: {
+              $sum: "$InvoiceValue"
+            },
+            totalPrcVal: {
+              $sum: "$PRCAmount"
+            }
+          }
+        }
+      ],
+
+      mtb_processing_value_by_lc: [
+        {
+          $unionWith: {
+            coll: "mtb_processing_value_by_lc",
+            pipeline: [
+              {
+                $addFields: {
+                  source:
+                    "mtb_processing_value_by_lc"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "mtb_processing_value_by_lc"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            totalInvoiceVal: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      mtb_realized: [
+        {
+          $unionWith: {
+            coll: "mtb_realized",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "mtb_realized"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "mtb_realized"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            totalInvoiceVal: {
+              $sum: "$InvoiceValue"
+            },
+            totalPrcVal: {
+              $sum: "$PRCAmount"
+            }
+          }
+        }
+      ],
+
+      scb_processing_value_by_lc: [
+        {
+          $unionWith: {
+            coll: "scb_processing_value_by_lc",
+            pipeline: [
+              {
+                $addFields: {
+                  source:
+                    "scb_processing_value_by_lc"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "scb_processing_value_by_lc"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            totalInvoiceVal: {
+              $sum: "$InvoiceValue"
+            }
+          }
+        }
+      ],
+      scb_realized: [
+        {
+          $unionWith: {
+            coll: "scb_realized",
+            pipeline: [
+              {
+                $addFields: {
+                  source: "scb_realized"
+                }
+              }
+            ]
+          }
+        },
+        {
+          $match: {
+            source: "scb_realized"
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            totalInvoiceVal: {
+              $sum: "$InvoiceValue"
+            },
+            totalPrcVal: {
+              $sum: "$PRCAmount"
+            }
+          }
+        }
+      ]
+    }
+  }
+]
